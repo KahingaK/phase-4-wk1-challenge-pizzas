@@ -1,4 +1,6 @@
 class RestaurantsController < ApplicationController
+    rescue_from ActiveRecord::RecordNotFound, with: :render_not_found_response
+    
     
     #route GET /restaurants
     def index
@@ -10,13 +12,15 @@ class RestaurantsController < ApplicationController
     #route GET /restaurants/:id
     def show
         restaurant = find_restaurant
-
+        render json: restaurant, include: :pizzas
         
     end
 
     #route DELETE /restaurant/:id
     def destroy
         restaurant = find_restaurant
+        restaurant.destroy
+        head :no_content
         
     end
 
@@ -24,6 +28,11 @@ class RestaurantsController < ApplicationController
     
     def find_restaurant
         Restaurant.find(params[:id])
+        
+    end
+
+    def render_not_found_response
+        render json: {error: "Restaurant not found"}, status: :not_found 
         
     end
 
