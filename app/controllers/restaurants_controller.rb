@@ -5,14 +5,14 @@ class RestaurantsController < ApplicationController
     #route GET /restaurants
     def index
         restaurants = Restaurant.all
-        render json: restaurants
+        render json: restaurants, status: :ok
         
     end
 
     #route GET /restaurants/:id
     def show
         restaurant = find_restaurant
-        render json: restaurant, include: :pizzas
+        render json: restaurant, include: :pizzas, status: :ok
         
     end
 
