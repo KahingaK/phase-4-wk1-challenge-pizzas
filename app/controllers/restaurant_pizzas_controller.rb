@@ -1,5 +1,5 @@
 class RestaurantPizzasController < ApplicationController
-    ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
+    rescue_from ActiveRecord::RecordInvalid, with: :render_unprocessable_entity
 
     def create
         rest_pizza = RestaurantPizza.create!(pizza_params)
